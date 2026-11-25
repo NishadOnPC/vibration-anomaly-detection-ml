@@ -75,13 +75,13 @@ void setup() {
   Wire.write(0);
   Wire.endTransmission(true);
 
-  // Set Accelerometer range to +/- 2g (matches training data)
+  
   Wire.beginTransmission(MPU_ADDR);
   Wire.write(0x1C);
   Wire.write(0x00);
   Wire.endTransmission(true);
 
-  // Enable ~21 Hz Digital Low-Pass Filter (matches training data)
+  
   Wire.beginTransmission(MPU_ADDR);
   Wire.write(0x1A);
   Wire.write(0x04);
@@ -107,7 +107,7 @@ void loop() {
     float ay = rawY / 16384.0;
     float az = rawZ / 16384.0;
 
-    // Feed accX, accY, accZ into Edge Impulse buffer
+    
     if (feature_ix + 2 < EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE) {
       features[feature_ix++] = ax;
       features[feature_ix++] = ay;
@@ -119,7 +119,7 @@ void loop() {
     sum_mag += m;
     sample_idx++;
 
-    // Every 100 samples (1 second), run Edge Impulse inference
+    
     if (sample_idx >= BATCH_SIZE) {
       float mean_g = sum_mag / BATCH_SIZE;
       float sq_sum = 0.0;
